@@ -23,9 +23,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
+        <Header className="w-100"/>
         {children}
-        <p>sexo p3ne chichis culo</p>
       </body>
     </html>
   );

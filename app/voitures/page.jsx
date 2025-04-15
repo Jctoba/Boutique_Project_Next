@@ -1,6 +1,6 @@
-import VoitureCard from "./VoitureCard/page";
+import VoitureCard from "./voitureCard/page";
 
-export default function voitures() {
+export default function Voitures() {
     // const [blogs, setBlogs] = useState([]);
     // const [isLoading, setIsLoading] = useState(true);
     // const [searchTerm, setSearchTerm] = useState('');
@@ -28,7 +28,7 @@ export default function voitures() {
 
             <div className="row px-3">
                 {/* {filteredAndSortedVoitures.map((blog) => ( */}
-                    <VoitureCard            />
+                    <VoitureCard/>
                 {/* ))} */}
             </div>
       </div>

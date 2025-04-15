@@ -12,10 +12,10 @@ export default function VoitureCard({ id, title, description, author, date }) {
                         <small className="text-body-secondary">{date}</small>
                     </p>
                     <Link 
-                        href={``}
+                        href={`voitures/voitureDetails/1`}
                         className="btn btn-primary"
                     >
-                       Je suis un voiture
+                       Voir details
                     </Link>
                 </div>
             </div>
