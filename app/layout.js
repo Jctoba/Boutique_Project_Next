@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <p>sexo p3ne chichis culo</p>
       </body>
     </html>
   );
