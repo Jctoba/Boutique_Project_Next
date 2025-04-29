@@ -25,9 +25,10 @@ export default function Voitures() {
 
     return (
         <div className="container-fluid">            
-
-            <div className="row px-3">
+            <div className="row container-fluid lg:flex">
                 {/* {filteredAndSortedVoitures.map((blog) => ( */}
+                    <VoitureCard/>
+                    <VoitureCard/>
                     <VoitureCard/>
                 {/* ))} */}
             </div>
