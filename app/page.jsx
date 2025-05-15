@@ -53,7 +53,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto px-4">
           {/* Opción 1 */}
           <div className="flex flex-col items-center">
-            <img src="../public\voitureicon.PNG" alt="Disponibilidad inmediata BMW" className="w-16 h-16 mb-4" />
+            <img src="/icon1.PNG" alt="Disponibilidad inmediata BMW" className="w-16 h-16 mb-4" />
             <p className="text-lg mb-4">Disponibilité inmediate.</p>
             <button className="border border-black px-6 py-2 rounded hover:bg-black hover:text-white transition">
               Chercher maintenant
@@ -62,7 +62,7 @@ export default function Home() {
 
           {/* Opción 2 */}
           <div className="flex flex-col items-center">
-            <img src="/icons/steering-wheel-icon.svg" alt="Agenda una prueba de manejo" className="w-16 h-16 mb-4" />
+            <img src="/icon2.png" alt="Agenda una prueba de manejo" className="w-16 h-16 mb-4" />
             <p className="text-lg mb-4">Planifier une rendez-vous pour tester.</p>
             <button className="border border-black px-6 py-2 rounded hover:bg-black hover:text-white transition">
               Planifier
@@ -71,7 +71,7 @@ export default function Home() {
 
           {/* Opción 3 */}
           <div className="flex flex-col items-center">
-            <img src="/icons/service-icon.svg" alt="Agenda una cita de servicio" className="w-16 h-16 mb-4" />
+            <img src="/icon3.png" alt="Agenda una cita de servicio" className="w-16 h-16 mb-4" />
             <p className="text-lg mb-4">Planifier une rendez-vous de service.</p>
             <button className="border border-black px-6 py-2 rounded hover:bg-black hover:text-white transition">
               Planifier

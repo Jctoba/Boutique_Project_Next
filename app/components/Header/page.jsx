@@ -1,23 +1,27 @@
 import Link from 'next/link';
 import { div } from 'three/tsl';
+import Image from "next/image";
 
 export default function Header() {
   return (
     <div className="relative w-full">
-      
-
       {/* Navbar con fondo separado */}
-      <div className="sticky top-0 z-20 bg-white/30 backdrop-blur-md shadow-md border-b border-white/20 p-10">
-        <Link href="/" className="btn btn-primary btn-lg mx-4 text-right p-4 border border-white/20 rounded hover:bg-slate-400">
-          Bienvenue
-        </Link>
-        <Link href="/voitures" className="btn btn-primary btn-lg mx-4 text-right p-4 border border-white/20 rounded hover:bg-slate-400">
-          Voir les voitures
-        </Link>
-        <Link href="/voitures" className="btn btn-primary btn-lg mx-4 text-right p-4 border border-white/20 rounded hover:bg-slate-400">
-          Contactez-nous
-        </Link>
-      </div>
+      <header className="flex items-center justify-between px-10 py-6">
+        <Image src="/voitureicon.PNG" alt="BMW Logo" width={60} height={60} />
+        
+        <nav className="flex gap-10 text-xl font-bold">
+          <Link href="#">Models</Link>
+          <Link href="#">Electric</Link>
+          <Link href="#">Build & Price</Link>
+          <Link href="#">Shop Now</Link>
+          <Link href="#">Special Offers</Link>
+          <Link href="#">More</Link>
+        </nav>
+
+        <div className="flex gap-4 text-2xl">
+          {/* Puedes agregar íconos o botones aquí */}
+        </div>
+      </header>
 
       {/* SVG background */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-none -z-20">

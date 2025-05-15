@@ -1,4 +1,6 @@
 
+import Image from 'next/image';
+
 export default function Footer() {
     return (
       <footer className="bg-gray-50 text-black pt-12">
@@ -38,28 +40,29 @@ export default function Footer() {
         <div className="border-t border-gray-300 py-6">
           <div className="flex flex-wrap justify-center gap-8 text-center text-sm">
             <div className="flex flex-col items-center">
-              <img src="/icons/facebook.svg" alt="BMW Facebook" className="w-5 h-5 mb-1" />
+              <img src="/facebook.png" alt="BMW Facebook" className="w-5 h-5 mb-1" />
               <span>Facebook</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src="/icons/instagram.svg" alt="BMW Instagram" className="w-5 h-5 mb-1" />
+              <img src="/insta.png" alt="BMW Instagram" className="w-5 h-5 mb-1" />
               <span>Instagram</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src="/icons/x.svg" alt="BMW X" className="w-5 h-5 mb-1" />
+              <img src="/x.png" alt="BMW X" className="w-5 h-5 mb-1" />
               <span>X</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src="/icons/youtube.svg" alt="BMW YouTube" className="w-5 h-5 mb-1" />
+              <img src="/youtube.png" alt="BMW YouTube" className="w-5 h-5 mb-1" />
               <span>YouTube</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src="/icons/linkedin.svg" alt="BMW LinkedIn" className="w-5 h-5 mb-1" />
+              <img src="/linkedin.png" alt="BMW LinkedIn" className="w-5 h-5 mb-1" />
               <span>LinkedIn</span>
             </div>
           </div>
         </div>
         </div>
+        <br /><br />
       </footer>
 
     );
