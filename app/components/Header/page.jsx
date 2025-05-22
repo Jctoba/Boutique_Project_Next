@@ -5,26 +5,22 @@ import Image from "next/image";
 export default function Header() {
   return (
     <div className="relative w-full">
-      {/* Navbar con fondo separado */}
-      <header className="flex items-center justify-between px-10 py-6">
-        <Image src="/voitureicon.PNG" alt="BMW Logo" width={60} height={60} />
-        
-        <nav className="flex gap-10 text-xl font-bold">
-          <Link href="#">Models</Link>
-          <Link href="#">Electric</Link>
-          <Link href="#">Build & Price</Link>
-          <Link href="#">Shop Now</Link>
-          <Link href="#">Special Offers</Link>
-          <Link href="#">More</Link>
-        </nav>
-
-        <div className="flex gap-4 text-2xl">
-          {/* Puedes agregar íconos o botones aquí */}
+      <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-10 py-6 bg-gradient-to-r from-black via-slate-900 to-black/80 shadow-xl backdrop-blur-md">
+        <div className="flex items-center gap-4">
+          <Image  href="#" src="/voitureicon.PNG" alt="AutoQuébec Logo" width={48} height={48} className="drop-shadow-lg" />
+          <a  href="/" className="text-3xl font-extrabold text-amber-400 tracking-wide drop-shadow">AutoQuébec</a>
         </div>
+        <nav className="flex gap-8 text-lg font-semibold justify-center w-full">
+          <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Models</Link>
+          <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Electric</Link>
+          <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Build & Price</Link>
+          <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Shop Now</Link>
+          <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Special Offers</Link>
+          <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">More</Link>
+        </nav>
       </header>
-
       {/* SVG background */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none -z-20">
+      {/* <div className="absolute top-0 left-0 w-full overflow-hidden leading-none -z-20">
         <svg
           className="block w-full h-20"
           xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +43,7 @@ export default function Header() {
             />
           </path>
         </svg>
-      </div>
+      </div> */}
     </div>
   );
 }

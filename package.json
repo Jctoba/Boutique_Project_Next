@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.6.11",
     "@react-three/drei": "^10.0.7",
     "@react-three/fiber": "^9.1.2",
+    "boutique_project_next": "file:",
     "next": "15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
