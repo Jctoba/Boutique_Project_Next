@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Cars",
+  title: "AutoQuébec",
   description: "Voitures boutique",
 };
 
