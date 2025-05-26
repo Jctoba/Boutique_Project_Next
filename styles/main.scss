@@ -1,0 +1,33 @@
+@import 'variables';
+@import 'mixins';
+
+// Reset and base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-sans;
+  background-color: $background-dark;
+  color: $text-primary;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+// Import component styles
+@import 'components/header';
+@import 'components/footer'; 

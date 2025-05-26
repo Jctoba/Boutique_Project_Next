@@ -52,14 +52,14 @@ export default function Header() {
               <Link href="/admin" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Gestion des Voitures</Link>
             ) : (
               <>
-                <Link href="/voitures" className="text-amber-200 hover:text-amber-400 transition drop-shadow">
+                <Link href="/voitures" className="text-amber-200 hover:text-amber-400 mx-2 transition drop-shadow">
                   Catalogue
                 </Link>
-                <Link href="/voitures?filtre=prix-asc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Le plus cher</Link>
-                <Link href="/voitures?filtre=prix-desc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Le moins cher</Link>
-                <Link href="/voitures?filtre=stock" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Plus de stock</Link>
-                <Link href="/voitures?filtre=stock-asc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Moins de stock</Link>
-                <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Contact</Link>
+                <Link href="/voitures?filtre=prix-asc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Luxe</Link>
+                <Link href="/voitures?filtre=prix-desc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Économiques</Link>
+                <Link href="/voitures?filtre=stock" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Hot</Link>
+                <Link href="/voitures?filtre=stock-asc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Rare</Link>
+                <Link href="tel:+1234567890" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Contact</Link>
               </>
             )}
           </nav>

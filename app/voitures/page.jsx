@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import VoitureCard from "./voitureCard/page";
 import { useSearchParams } from 'next/navigation';
 
@@ -14,11 +14,7 @@ export default function Voitures() {
         const fetchVoitures = async () => {
             try {
                 const token = localStorage.getItem("token");
-                let url = "https://projet-prog4e12.cegepjonquiere.ca/api/Produits/";
-                
-                if (filtre) {
-                    url += `/tri/${filtre}`;
-                }
+                const url = "https://projet-prog4e12.cegepjonquiere.ca/api/Produits/";
 
                 const response = await fetch(url, {
                     headers: {
@@ -32,41 +28,40 @@ export default function Voitures() {
                 setVoitures(data);
             } catch (err) {
                 console.error('Fetch error:', err);
-                // Fallback data en caso de error
-                setVoitures([
-                    {
-                        id: 1,
-                        name: "FIAT",
-                        prix: 1501,
-                        description: "Nouveau et nice",
-                        imageURL: "https://d2ivfcfbdvj3sm.cloudfront.net/7fc965ab77efe6e0fa62e4ca1ea7673bb6584255021e3d8e88cb10/stills_0640_png/MY2023/52349/52349_st0640_116.png",
-                        nom_Restant_Inv: 7
-                    },
-                    {
-                        id: 2,
-                        name: "Nissan GT-R",
-                        prix: 150000,
-                        description: "Nouveau",
-                        imageURL: "",
-                        nom_Restant_Inv: 4
-                    },
-                    {
-                        id: 3,
-                        name: "Peugeot 208",
-                        prix: 21000,
-                        description: "Compacte et économique",
-                        imageURL: "",
-                        nom_Restant_Inv: 12
-                    }
-                ]);
+               
                 setError(err.message);
             } finally {
                 setIsLoading(false);
             }
         };
         fetchVoitures();
-    }, [filtre]);
+    }, []); // Ya no depende del filtro
 
+    const voituresFiltrees = useMemo(() => {
+        if (!filtre) return voitures
+    
+        let sorted = [];
+    
+        switch (filtre) {
+            case 'prix-asc':
+                sorted = [...voitures].sort((a, b) => a.prix - b.prix); // menor a mayor
+                break;
+            case 'prix-desc':
+                sorted = [...voitures].sort((a, b) => b.prix - a.prix); // mayor a menor
+                break;
+            case 'stock':
+                sorted = [...voitures].sort((a, b) => b.nom_Restant_Inv - a.nom_Restant_Inv);
+                break;
+            case 'stock-asc':
+                sorted = [...voitures].sort((a, b) => a.nom_Restant_Inv - b.nom_Restant_Inv);
+                break;
+            default:
+                sorted = voitures;
+        }
+    
+        return sorted.slice(0, 2); // Top 2 del filtro
+    }, [voitures, filtre]);
+    
     return (
         <div className="min-h-screen pt-40 py-12 px-2">
             <div className="max-w-7xl mx-auto">
@@ -83,7 +78,7 @@ export default function Voitures() {
                     </div>
                 )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-4">
-                    {voitures.map((v, idx) => (
+                    {voituresFiltrees.map((v, idx) => (
                         <VoitureCard key={v.id || idx} {...v} />
                     ))}
                 </div>

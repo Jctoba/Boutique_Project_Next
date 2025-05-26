@@ -1,0 +1,48 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin gradient-background {
+  background: linear-gradient(
+    to right,
+    $background-gradient-start,
+    $background-gradient-middle,
+    $background-gradient-end
+  );
+}
+
+@mixin hover-transition {
+  transition: $transition-base;
+  &:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+}
+
+@mixin button-base {
+  padding: $spacing-xs $spacing-md;
+  border-radius: 9999px;
+  font-weight: bold;
+  cursor: pointer;
+  @include hover-transition;
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+} 

@@ -2,8 +2,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { loadStripe } from "@stripe/stripe-js";
 
 export default function Panier() {
+
+  const stripePromise = loadStripe("pk_test_51RSra5QQLTN5OBcUR31ERy9CWZo2AUMu4VT264djgjJDaiJZ6g4vddGYktyWl33j1n8QIRj0km3yuewnpsGSll8E00UM052QJK");
+
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
@@ -17,6 +21,40 @@ export default function Panier() {
     setCart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
   };
+
+  
+  const handleCheckout = async () => {
+    try {
+      const produits = cart.map(item => ({
+        id: item.id,
+        produitId: item.id,
+        nomProduit: item.title,
+        prix: item.prix,
+        quantite: item.quantite ?? 1,
+        imageURL: item.imageURL,
+        dateAjout: new Date().toISOString()
+      }));
+  
+      const response = await fetch("https://projet-prog4e12.cegepjonquiere.ca/api/paiement/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(produits)
+      });
+  
+      const data = await response.json();
+  
+      if (data.sessionId) {
+        const stripe = await import('@stripe/stripe-js').then(mod => mod.loadStripe('pk_test_51RSra5QQLTN5OBcUR31ERy9CWZo2AUMu4VT264djgjJDaiJZ6g4vddGYktyWl33j1n8QIRj0km3yuewnpsGSll8E00UM052QJK'));
+        const stripeInstance = await stripe;
+        await stripeInstance.redirectToCheckout({ sessionId: data.sessionId });
+      }
+    } catch (error) {
+      console.error("Erreur de paiement :", error);
+    }
+  };
+  
 
   if (cart.length === 0) {
     return (
@@ -45,7 +83,7 @@ export default function Panier() {
           ))}
         </ul>
         <div className="flex justify-end mt-8">
-          <button className="bg-green-500 text-white font-bold px-8 py-3 rounded-full shadow hover:bg-green-600 transition">Finaliser l'achat</button>
+          <button onClick={handleCheckout} className="bg-green-500 text-white font-bold px-8 py-3 rounded-full shadow hover:bg-green-600 transition">Finaliser l'achat</button>
         </div>
       </div>
     </div>

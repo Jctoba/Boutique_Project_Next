@@ -1,0 +1,105 @@
+@import '../variables';
+@import '../mixins';
+
+.footer {
+  @include gradient-background;
+  color: $primary-light;
+  padding-top: $spacing-xl;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+
+  &__container {
+    max-width: $breakpoint-xl;
+    margin: 0 auto;
+    padding: 0 $spacing-sm;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+
+    @include responsive(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include responsive(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__section {
+    h3 {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: $font-size-xs;
+      color: $primary-color;
+      letter-spacing: 0.05em;
+      margin-bottom: $spacing-sm;
+    }
+
+    ul {
+      space-y: $spacing-xs;
+
+      li a {
+        color: $primary-light;
+        @include hover-transition;
+
+        &:hover {
+          text-decoration: underline;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  &__social {
+    grid-column: span 2;
+    @include flex-center;
+    flex-direction: column;
+    border-top: 1px solid $primary-color;
+    padding-top: $spacing-md;
+    margin-top: $spacing-lg;
+
+    @include responsive(md) {
+      margin-top: 0;
+    }
+
+    &-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: $spacing-lg;
+      text-align: center;
+      font-size: $font-size-sm;
+
+      &-item {
+        @include flex-center;
+        flex-direction: column;
+
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          fill: white;
+          @include hover-transition;
+        }
+
+        span {
+          padding: $spacing-xs;
+        }
+
+        &:hover {
+          svg {
+            fill: $primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  &__copyright {
+    text-align: center;
+    font-size: $font-size-xs;
+    color: $primary-light;
+    padding: $spacing-sm 0;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+} 
