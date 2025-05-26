@@ -6,12 +6,9 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 import { useRef } from "react";
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Fondo animado de luces difusas y en movimiento */}
-      <AnimatedAuroraBackground />
+    <div className="relative min-h-screen overflow-hidden  bg-gradient-to-br from-slate-900 via-black to-slate-800">
+      
       <div className="relative z-10 text-center">
-       
-
          {/* Modelo 3D  */}
          <div className="relative flex justify-center pt-14">
          
@@ -83,76 +80,6 @@ export default function Home() {
   );
 }
 
-
-// Fondo animado tipo aurora boreal, difuso y llamativo
-function AnimatedAuroraBackground() {
-  return (
-    <div className="fixed inset-0 -z-10 pointer-events-none">
-      <style>{`
-        @keyframes auroraMove1 {
-          0% { transform: translateY(0) translateX(0) scale(1.1) rotate(-2deg); opacity: 0.7; }
-          50% { transform: translateY(-40px) translateX(40px) scale(1.2) rotate(2deg); opacity: 0.9; }
-          100% { transform: translateY(0) translateX(0) scale(1.1) rotate(-2deg); opacity: 0.7; }
-        }
-        @keyframes auroraMove2 {
-          0% { transform: translateY(0) translateX(0) scale(1.2) rotate(3deg); opacity: 0.5; }
-          50% { transform: translateY(60px) translateX(-60px) scale(1.3) rotate(-3deg); opacity: 0.8; }
-          100% { transform: translateY(0) translateX(0) scale(1.2) rotate(3deg); opacity: 0.5; }
-        }
-        @keyframes auroraMove3 {
-          0% { transform: translateY(0) translateX(0) scale(1.1) rotate(0deg); opacity: 0.6; }
-          50% { transform: translateY(-30px) translateX(60px) scale(1.3) rotate(4deg); opacity: 0.8; }
-          100% { transform: translateY(0) translateX(0) scale(1.1) rotate(0deg); opacity: 0.6; }
-        }
-      `}</style>
-      <div style={{
-        position: 'absolute',
-        width: '100vw',
-        height: '100vh',
-        overflow: 'hidden',
-        top: 0,
-        left: 0,
-      }}>
-        {/* Aurora 1 */}
-        <div style={{
-          position: 'absolute',
-          top: '-10%',
-          left: '-10%',
-          width: '60vw',
-          height: '50vh',
-          background: 'linear-gradient(120deg, #ffe066 0%, #fbbf24 60%, #fffbe6 100%)',
-          filter: 'blur(30px)',
-          opacity: 0.7,
-          animation: 'auroraMove1 12s ease-in-out infinite',
-        }} />
-        {/* Aurora 2 */}
-        <div style={{
-          position: 'absolute',
-          bottom: '-15%',
-          right: '-10%',
-          width: '60vw',
-          height: '50vh',
-          background: 'linear-gradient(100deg, #ffd700 0%, #fbbf24 80%, #fffbe6 100%)',
-          filter: 'blur(60px)',
-          opacity: 0.5,
-          animation: 'auroraMove2 16s ease-in-out infinite',
-        }} />
-        {/* Aurora 3 */}
-        <div style={{
-          position: 'absolute',
-          top: '30%',
-          left: '40%',
-          width: '50vw',
-          height: '40vh',
-          background: 'linear-gradient(90deg, #fbbf24 0%, #ffe066 60%, #fffbe6 100%)',
-          filter: 'blur(50px)',
-          opacity: 0.6,
-          animation: 'auroraMove3 18s ease-in-out infinite',
-        }} />
-      </div>
-    </div>
-  );
-}
 // Componente para cargar y animar el modelo 3D del coche
 function Car() {
   const { scene } = useGLTF('/models/car.glb');
@@ -174,3 +101,75 @@ function Car() {
     />
   );
 }
+
+
+
+// // Fondo animado tipo aurora boreal, difuso y llamativo
+// function AnimatedAuroraBackground() {
+//   return (
+//     <div className="fixed inset-0 -z-10 pointer-events-none">
+//       <style>{`
+//         @keyframes auroraMove1 {
+//           0% { transform: translateY(0) translateX(0) scale(1.1) rotate(-2deg); opacity: 0.7; }
+//           50% { transform: translateY(-40px) translateX(40px) scale(1.2) rotate(2deg); opacity: 0.9; }
+//           100% { transform: translateY(0) translateX(0) scale(1.1) rotate(-2deg); opacity: 0.7; }
+//         }
+//         @keyframes auroraMove2 {
+//           0% { transform: translateY(0) translateX(0) scale(1.2) rotate(3deg); opacity: 0.5; }
+//           50% { transform: translateY(60px) translateX(-60px) scale(1.3) rotate(-3deg); opacity: 0.8; }
+//           100% { transform: translateY(0) translateX(0) scale(1.2) rotate(3deg); opacity: 0.5; }
+//         }
+//         @keyframes auroraMove3 {
+//           0% { transform: translateY(0) translateX(0) scale(1.1) rotate(0deg); opacity: 0.6; }
+//           50% { transform: translateY(-30px) translateX(60px) scale(1.3) rotate(4deg); opacity: 0.8; }
+//           100% { transform: translateY(0) translateX(0) scale(1.1) rotate(0deg); opacity: 0.6; }
+//         }
+//       `}</style>
+//       <div style={{
+//         position: 'absolute',
+//         width: '100vw',
+//         height: '100vh',
+//         overflow: 'hidden',
+//         top: 0,
+//         left: 0,
+//       }}>
+//         {/* Aurora 1 */}
+//         <div style={{
+//           position: 'absolute',
+//           top: '-10%',
+//           left: '-10%',
+//           width: '60vw',
+//           height: '50vh',
+//           background: 'linear-gradient(120deg, #ffe066 0%, #fbbf24 60%, #fffbe6 100%)',
+//           filter: 'blur(30px)',
+//           opacity: 0.7,
+//           animation: 'auroraMove1 12s ease-in-out infinite',
+//         }} />
+//         {/* Aurora 2 */}
+//         <div style={{
+//           position: 'absolute',
+//           bottom: '-15%',
+//           right: '-10%',
+//           width: '60vw',
+//           height: '50vh',
+//           background: 'linear-gradient(100deg, #ffd700 0%, #fbbf24 80%, #fffbe6 100%)',
+//           filter: 'blur(60px)',
+//           opacity: 0.5,
+//           animation: 'auroraMove2 16s ease-in-out infinite',
+//         }} />
+//         {/* Aurora 3 */}
+//         <div style={{
+//           position: 'absolute',
+//           top: '30%',
+//           left: '40%',
+//           width: '50vw',
+//           height: '40vh',
+//           background: 'linear-gradient(90deg, #fbbf24 0%, #ffe066 60%, #fffbe6 100%)',
+//           filter: 'blur(50px)',
+//           opacity: 0.6,
+//           animation: 'auroraMove3 18s ease-in-out infinite',
+//         }} />
+//       </div>
+//     </div>
+//   );
+// }

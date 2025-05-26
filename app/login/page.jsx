@@ -13,6 +13,8 @@ export default function Login() {
   const [registerLoading, setRegisterLoading] = useState(false);
   const router = useRouter();
 
+  const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjI3ZDlmMzI3LWI2NWYtNGU4NC05ZjdmLTExNDdlOTE0MmEwYiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NDg4MjA0MjMsImlzcyI6IkJvdXRpcXVlQVBJIiwiYXVkIjoiQm91dGlxdWVBUElDbGllbnQifQ.5Y3M0FqRy4FsQ1mrqvs0z8kSVHjdJyZJUMtLjCDmAIo"
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -21,18 +23,20 @@ export default function Login() {
       const res = await fetch("https://projet-prog4e12.cegepjonquiere.ca/api/Accounts/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: username, password: password }),
+        token: token  
       });
       if (res.ok) {
         const data = await res.json();
         if (data && data.token) {
           localStorage.setItem("token", data.token);
         }
-        router.push("/");
+        router.push("/voitures");
       } else {
         setError("Nom d'utilisateur ou mot de passe incorrect");
       }
     } catch (err) {
+      console.log('%capp\login\page.jsx:39 err', 'color: #007acc;', err);
       setError("Erreur lors de la conexion");
     } finally {
       setLoading(false);
@@ -72,7 +76,7 @@ export default function Login() {
             <input
               type="text"
               placeholder="Nom d'utilisateur"
-              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none text-white focus:ring-2 focus:ring-amber-400"
               value={username}
               onChange={e => setUsername(e.target.value)}
               required
@@ -80,7 +84,7 @@ export default function Login() {
             <input
               type="password"
               placeholder="Mot de passe"
-              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none text-white focus:ring-2 focus:ring-amber-400"
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
@@ -107,7 +111,7 @@ export default function Login() {
             <input
               type="text"
               placeholder="Nom d'utilisateur"
-              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none text-white focus:ring-2 focus:ring-amber-400"
               value={registerData.username}
               onChange={e => setRegisterData({ ...registerData, username: e.target.value })}
               required
@@ -115,7 +119,7 @@ export default function Login() {
             <input
               type="email"
               placeholder="Adresse e-mail"
-              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none text-white focus:ring-2 focus:ring-amber-400"
               value={registerData.email}
               onChange={e => setRegisterData({ ...registerData, email: e.target.value })}
               required
@@ -123,7 +127,7 @@ export default function Login() {
             <input
               type="password"
               placeholder="Mot de passe"
-              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="px-4 py-3 rounded-lg border border-slate-300 focus:outline-none text-white focus:ring-2 focus:ring-amber-400"
               value={registerData.password}
               onChange={e => setRegisterData({ ...registerData, password: e.target.value })}
               required

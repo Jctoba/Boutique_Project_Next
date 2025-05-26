@@ -38,12 +38,7 @@ export default function VoitureCard({ id, title, name, description, prix, imageU
                     <span className="text-xs text-white">Stock: <span className="font-bold text-amber-600">{nom_Restant_Inv ?? '-'}</span></span>
                 </div>
                 <div className="flex gap-2 w-full justify-center">
-                  <Link 
-                      href={`/voitures/voitureDetails/${id}`}
-                      className="inline-block bg-amber-400 text-white font-bold px-6 py-2 rounded-full shadow hover:bg-amber-500 transition-all"
-                  >
-                      Voir détails
-                  </Link>
+                 
                   <button
                     onClick={handleAddToCart}
                     className="inline-block bg-green-500 text-white font-bold px-6 py-2 rounded-full shadow hover:bg-green-600 transition-all"

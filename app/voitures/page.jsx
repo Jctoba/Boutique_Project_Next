@@ -11,7 +11,12 @@ export default function Voitures() {
     useEffect(() => {
         const fetchVoitures = async () => {
             try {
-                const response = await fetch("https://projet-prog4e12.cegepjonquiere.ca/api/Produits");
+                const token = localStorage.getItem("token");
+                const response = await fetch("https://projet-prog4e12.cegepjonquiere.ca/api/Prouits", {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 if (!response.ok) throw new Error("Erreur lors de la récupération des voitures");
                 const data = await response.json();
                 setVoitures(data);
@@ -23,7 +28,7 @@ export default function Voitures() {
                     title: "FIAT",
                     prix: 1501,
                     description: "Nouveau et nice",
-                    imageURL: "",
+                    imageURL: "https://d2ivfcfbdvj3sm.cloudfront.net/7fc965ab77efe6e0fa62e4ca1ea7673bb6584255021e3d8e88cb10/stills_0640_png/MY2023/52349/52349_st0640_116.png",
                     nom_Restant_Inv: 7
                   },
                   {
@@ -52,7 +57,7 @@ export default function Voitures() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br pt-40 from-slate-900 via-black to-slate-800 py-12 px-2">
+        <div className="min-h-screen pt-40 py-12 px-2">
             <div className="max-w-7xl mx-auto">
                 <h1 className="text-4xl md:text-5xl font-extrabold text-amber-400 text-center mb-10 drop-shadow-lg">Catalogue des voitures</h1>
                 <p className="text-lg text-slate-200 text-center mb-12 max-w-2xl mx-auto">Découvrez notre inventaire</p>
