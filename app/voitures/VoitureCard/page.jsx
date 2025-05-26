@@ -15,7 +15,7 @@ export default function VoitureCard({ id, title, name, description, prix, imageU
         if (!cart.find(item => item.id === id)) {
             cart.push(car);
             localStorage.setItem('cart', JSON.stringify(cart));
-            alert('Ajouté au panier !');
+            alert('Ajouté au panier!');
         } else {
             alert('Déjà dans le panier');
         }

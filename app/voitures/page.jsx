@@ -2,17 +2,28 @@
 import { useEffect, useState } from "react";
 import VoitureCard from "./voitureCard/page";
 import { title } from "process";
+import { useSearchParams } from 'next/navigation';
 
 export default function Voitures() {
     const [voitures, setVoitures] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+    const filtre = searchParams ? searchParams.get('filtre') : null;
 
     useEffect(() => {
         const fetchVoitures = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch("https://projet-prog4e12.cegepjonquiere.ca/api/Prouits", {
+                let url = "https://projet-prog4e12.cegepjonquiere.ca/api/Produits";
+                if (filtre) {
+                  // Mappeo de filtro a endpoint LINQ
+                  if (filtre === 'prix-asc') url += "/GetDTOVoitures/tri/prix-asc";
+                  else if (filtre === 'prix-desc') url += "/GetDTOVoitures/tri/prix-desc";
+                  else if (filtre === 'stock') url += "/GetDTOVoitures/tri/stock";
+                  else if (filtre === 'stock-asc') url += "/GetDTOVoitures/tri/stock-asc";
+                }
+                const response = await fetch(url, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -54,7 +65,7 @@ export default function Voitures() {
             }
         };
         fetchVoitures();
-    }, []);
+    }, [filtre]);
 
     return (
         <div className="min-h-screen pt-40 py-12 px-2">
