@@ -1,16 +1,30 @@
 'use client'
 import Link from 'next/link';
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsLoggedIn(!!localStorage.getItem("token"));
-      // Contador de productos en carrito
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      
+      if (token) {
+        try {
+          const decoded = jwtDecode(token);
+          const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+          setIsAdmin(role === "Admin");
+        } catch (error) {
+          console.error('Error decoding token:', error);
+          setIsAdmin(false);
+        }
+      }
+
       const panier = JSON.parse(localStorage.getItem("panier") || "[]");
       setCartCount(panier.length);
     }
@@ -19,6 +33,7 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    setIsAdmin(false);
     window.location.href = "/";
   };
 
@@ -32,61 +47,50 @@ export default function Header() {
           </div>
 
           {/* Navbar links (desktop) */}
-          <nav className="hidden md:flex flex-1 justify-center gap-6 lg:gap-10 text-base md:text-lg font-semibold">
-            <div className="relative group">
-              <Link href="/voitures" className="text-amber-200 hover:text-amber-400 transition drop-shadow flex items-center gap-1">
-                Catalogue
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-              </Link>
-              {/* Dropdown */}
-              <div className="absolute left-0 mt-2 w-48 bg-slate-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition pointer-events-none group-hover:pointer-events-auto z-50">
-                <Link href="/voitures?filtre=prix-asc" className="block px-4 py-2 text-amber-200 hover:bg-amber-400 hover:text-slate-900 rounded-t-lg transition">Le plus cher</Link>
-                <Link href="/voitures?filtre=prix-desc" className="block px-4 py-2 text-amber-200 hover:bg-amber-400 hover:text-slate-900 transition">Le moins cher</Link>
-                <Link href="/voitures?filtre=stock" className="block px-4 py-2 text-amber-200 hover:bg-amber-400 hover:text-slate-900 transition">Plus de stock</Link>
-                <Link href="/voitures?filtre=stock-asc" className="block px-4 py-2 text-amber-200 hover:bg-amber-400 hover:text-slate-900 rounded-b-lg transition">Moins de stock</Link>
-              </div>
-            </div>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Électriques</Link>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Services</Link>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Offres</Link>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Contact</Link>
+          <nav className="hidden md:flex flex-row items-center gap-6 text-base md:text-lg font-semibold">
+            {isAdmin ? (
+              <Link href="/admin" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Gestion des Voitures</Link>
+            ) : (
+              <>
+                <Link href="/voitures" className="text-amber-200 hover:text-amber-400 transition drop-shadow">
+                  Catalogue
+                </Link>
+                <Link href="/voitures?filtre=prix-asc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Le plus cher</Link>
+                <Link href="/voitures?filtre=prix-desc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Le moins cher</Link>
+                <Link href="/voitures?filtre=stock" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Plus de stock</Link>
+                <Link href="/voitures?filtre=stock-asc" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Moins de stock</Link>
+                <Link href="#" className="text-amber-200 hover:text-amber-400 transition drop-shadow">Contact</Link>
+              </>
+            )}
           </nav>
 
-            
+          {/* User actions */}
+          <div className="flex items-center">
             {isLoggedIn ? (
-            <div className="flex items-center gap-2 md:gap-4 ml-2 md:ml-8">
-                <Link href="/panier" className="relative group flex items-center font-bold bg-white/20 rounded-xl p-2 px-4 md:px-6 text-amber-200 hover:text-amber-400 transition">
-                  <span className="hidden md:inline mr-2">Panier</span>
-                  <svg width="28" height="28" fill="none" viewBox="0 0 50 50" stroke="currentColor" className="text-amber-400 group-hover:text-amber-300 transition p-1">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 0C13.515625 0 10 3.515625 10 8C10 12.484375 13.515625 16 18 16C22.484375 16 26 12.484375 26 8C26 3.515625 22.484375 0 18 0 Z M 30.40625 4C30.210938 4 30.007813 4.046875 29.84375 4.15625L28.6875 4.96875L27.5625 4.15625C27.457031 4.085938 27.34375 4.058594 27.21875 4.03125C27.730469 5.242188 28 6.582031 28 8C28 9.429688 27.707031 10.78125 27.1875 12L37 12C37.265625 12 37.53125 11.90625 37.71875 11.71875L39.71875 9.71875C39.90625 9.53125 40 9.265625 40 9L40 7C40 6.734375 39.90625 6.46875 39.71875 6.28125L37.71875 4.28125C37.53125 4.09375 37.265625 4 37 4L35.3125 4C35.046875 4 34.8125 4.09375 34.625 4.28125L33.5 5.4375L32.375 4.28125C32.1875 4.09375 31.921875 4 31.65625 4 Z M 16 6C17.105469 6 18 6.894531 18 8C18 9.105469 17.105469 10 16 10C14.894531 10 14 9.105469 14 8C14 6.894531 14.894531 6 16 6 Z M 15.6875 18C13.667969 18 11.832031 19.242188 11.09375 21.09375L8.125 28L7 28C5.347656 28 4 29.347656 4 31C4 32.652344 5.347656 34 7 34L7 47C7 48.652344 8.347656 50 10 50L13 50C14.652344 50 16 48.652344 16 47L16 46L34 46L34 47C34 48.652344 35.347656 50 37 50L40 50C41.652344 50 43 48.652344 43 47L43 34C44.652344 34 46 32.652344 46 31C46 29.347656 44.652344 28 43 28L41.875 28L38.9375 21.125C38.191406 19.253906 36.332031 18 34.3125 18 Z M 15.6875 20L34.3125 20C35.523438 20 36.636719 20.765625 37.09375 21.90625L39.90625 28.53125L38.9375 29.1875C38.152344 29.738281 37.234375 30 36.1875 30L13.8125 30C12.765625 30 11.867188 29.71875 11.0625 29.15625L10.09375 28.53125L12.9375 21.875C13.386719 20.757813 14.476563 20 15.6875 20 Z M 14.5 36C15.898438 36 17 37.101563 17 38.5C17 39.898438 15.898438 41 14.5 41C13.101563 41 12 39.898438 12 38.5C12 37.101563 13.101563 36 14.5 36 Z M 35.5 36C36.898438 36 38 37.101563 38 38.5C38 39.898438 36.898438 41 35.5 41C34.101563 41 33 39.898438 33 38.5C33 37.101563 34.101563 36 35.5 36Z" />
-                  </svg>
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 shadow">{cartCount}</span>
-                  )}
-                </Link>
+              <div className="flex items-center">
+                {!isAdmin && (
+                  <Link href="/panier" className="relative p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 shadow">{cartCount}</span>
+                    )}
+                  </Link>
+                )}
                 <button
                   onClick={handleLogout}
                   className="ml-2 md:ml-6 px-4 md:px-6 py-2 rounded-full bg-red-500 text-white font-bold shadow-lg hover:bg-red-600 transition-all"
                 >
                   Se déconnecter
                 </button>
-                
               </div>
             ) : (
               <div className="flex items-center gap-2 md:gap-4 ml-2 md:ml-8">
-                <Link href="/panier" className="relative group flex items-center font-bold bg-white/20 rounded-xl p-2 px-4 md:px-6 text-amber-200 hover:text-amber-400 transition">
-                  <span className="hidden md:inline mr-2">Panier</span>
-                  <svg width="28" height="28" fill="none" viewBox="0 0 50 50" stroke="currentColor" className="text-amber-400 group-hover:text-amber-300 transition p-1">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 0C13.515625 0 10 3.515625 10 8C10 12.484375 13.515625 16 18 16C22.484375 16 26 12.484375 26 8C26 3.515625 22.484375 0 18 0 Z M 30.40625 4C30.210938 4 30.007813 4.046875 29.84375 4.15625L28.6875 4.96875L27.5625 4.15625C27.457031 4.085938 27.34375 4.058594 27.21875 4.03125C27.730469 5.242188 28 6.582031 28 8C28 9.429688 27.707031 10.78125 27.1875 12L37 12C37.265625 12 37.53125 11.90625 37.71875 11.71875L39.71875 9.71875C39.90625 9.53125 40 9.265625 40 9L40 7C40 6.734375 39.90625 6.46875 39.71875 6.28125L37.71875 4.28125C37.53125 4.09375 37.265625 4 37 4L35.3125 4C35.046875 4 34.8125 4.09375 34.625 4.28125L33.5 5.4375L32.375 4.28125C32.1875 4.09375 31.921875 4 31.65625 4 Z M 16 6C17.105469 6 18 6.894531 18 8C18 9.105469 17.105469 10 16 10C14.894531 10 14 9.105469 14 8C14 6.894531 14.894531 6 16 6 Z M 15.6875 18C13.667969 18 11.832031 19.242188 11.09375 21.09375L8.125 28L7 28C5.347656 28 4 29.347656 4 31C4 32.652344 5.347656 34 7 34L7 47C7 48.652344 8.347656 50 10 50L13 50C14.652344 50 16 48.652344 16 47L16 46L34 46L34 47C34 48.652344 35.347656 50 37 50L40 50C41.652344 50 43 48.652344 43 47L43 34C44.652344 34 46 32.652344 46 31C46 29.347656 44.652344 28 43 28L41.875 28L38.9375 21.125C38.191406 19.253906 36.332031 18 34.3125 18 Z M 15.6875 20L34.3125 20C35.523438 20 36.636719 20.765625 37.09375 21.90625L39.90625 28.53125L38.9375 29.1875C38.152344 29.738281 37.234375 30 36.1875 30L13.8125 30C12.765625 30 11.867188 29.71875 11.0625 29.15625L10.09375 28.53125L12.9375 21.875C13.386719 20.757813 14.476563 20 15.6875 20 Z M 14.5 36C15.898438 36 17 37.101563 17 38.5C17 39.898438 15.898438 41 14.5 41C13.101563 41 12 39.898438 12 38.5C12 37.101563 13.101563 36 14.5 36 Z M 35.5 36C36.898438 36 38 37.101563 38 38.5C38 39.898438 36.898438 41 35.5 41C34.101563 41 33 39.898438 33 38.5C33 37.101563 34.101563 36 35.5 36Z" />
-                  </svg>
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 shadow">{cartCount}</span>
-                  )}
-                </Link>
-
                 <a href="/login" className="ml-2 md:ml-6 px-4 md:px-6 py-2 rounded-full bg-amber-400 text-slate-900 font-bold shadow-lg hover:bg-amber-500 transition-all">Login</a>
               </div>
             )}
+
             {/* Mobile menu button */}
             <button className="md:hidden ml-2 p-2 rounded hover:bg-slate-800" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
               <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-amber-300">
@@ -94,25 +98,28 @@ export default function Header() {
               </svg>
             </button>
           </div>
+        </div>
+
         {/* Mobile menu */}
         {menuOpen && (
-          <nav className="md:hidden bg-black/90 px-6 py-4 flex flex-col gap-4 text-lg font-semibold">
-            <div className="relative">
-              <details>
-                <summary className="text-amber-200 hover:text-amber-400 transition cursor-pointer select-none">Catalogue</summary>
-                <div className="ml-4 flex flex-col gap-1 mt-2">
-                  <Link href="/voitures?filtre=prix-asc" className="text-amber-200 hover:text-amber-400 transition">Le plus cher</Link>
-                  <Link href="/voitures?filtre=prix-desc" className="text-amber-200 hover:text-amber-400 transition">Le moins cher</Link>
-                  <Link href="/voitures?filtre=stock" className="text-amber-200 hover:text-amber-400 transition">Plus de stock</Link>
-                  <Link href="/voitures?filtre=stock-asc" className="text-amber-200 hover:text-amber-400 transition">Moins de stock</Link>
-                </div>
-              </details>
-            </div>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition">Électriques</Link>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition">Services</Link>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition">Offres</Link>
-            <Link href="#" className="text-amber-200 hover:text-amber-400 transition">Contact</Link>
-          </nav>
+          <div className="md:hidden bg-black/95 border-t border-amber-300/20">
+            <nav className="flex flex-col p-4">
+              {isAdmin ? (
+                <>
+                  <Link href="/admin" className="text-amber-200 hover:text-amber-400 py-2">Gestion des Voitures</Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/voitures" className="text-amber-200 hover:text-amber-400 py-2">Catalogue</Link>
+                  <Link href="/voitures?filtre=prix-asc" className="text-amber-200 hover:text-amber-400 py-2">Le plus cher</Link>
+                  <Link href="/voitures?filtre=prix-desc" className="text-amber-200 hover:text-amber-400 py-2">Le moins cher</Link>
+                  <Link href="/voitures?filtre=stock" className="text-amber-200 hover:text-amber-400 py-2">Plus de stock</Link>
+                  <Link href="/voitures?filtre=stock-asc" className="text-amber-200 hover:text-amber-400 py-2">Moins de stock</Link>
+                  <Link href="#" className="text-amber-200 hover:text-amber-400 py-2">Contact</Link>
+                </>
+              )}
+            </nav>
+          </div>
         )}
       </header>
       {/* SVG background */}
